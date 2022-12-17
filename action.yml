@@ -1,0 +1,18 @@
+name: "Deploy to ACDH-CH cluster"
+description: "Deploy Docker image to the ACDH-CH cluster via Rancher API"
+inputs:
+  project:
+    description: "Rancher project"
+    required: true
+  deployment:
+    description: "Rancher deployment"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - run: |
+        curl --fail --silent --show-error \
+          -X POST \
+          -H "Authorization: Bearer ${{ secrets.RANCHER_API_TOKEN }}" \
+          "https://rancher.acdh-dev.oeaw.ac.at/v3/project/${{ inputs.project }}/workloads/deployment:${{ inputs.deployment }}?action=redeploy"
+      shell: bash
