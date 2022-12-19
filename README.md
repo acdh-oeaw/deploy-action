@@ -4,6 +4,13 @@ Deploy a Docker image to the ACDH-CH cluster via Rancher API.
 
 ## Inputs
 
+## `token`
+
+The Bearer token for the Rancher API. You can create a new token
+[here](https://rancher.acdh-dev.oeaw.ac.at/dashboard/account/create-key), and
+store it as a GitHub repository secret via Settings > Secrets > Actions > New
+repository secret.
+
 ## `project`
 
 The Rancher project id.
@@ -71,8 +78,9 @@ jobs:
           cache-to: type=gha,mode=max
 
       - name: Deploy to cluster
-        uses: acdh-oeaw/deploy-action@1
+        uses: acdh-oeaw/deploy-action@v1
         with:
-          project: c-zdbh8:p-hqcjj
-          deployment: sola:sola-frontend
+          token: ${{ secrets.RANCHER_API_TOKEN }}
+          project: c-zdbh8:p-abcde
+          deployment: namespace:web-frontend
 ```
